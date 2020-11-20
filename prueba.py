@@ -165,6 +165,7 @@ def colisonCuadros(direccion, p):
 def movI(contador):
     global move, move2, move3, move4
     global colC
+    global mp
 
     keys = pygame.key.get_pressed()
 
@@ -180,6 +181,8 @@ def movI(contador):
     if colC == True and len(contador) != 0:
         contador.pop()
         colC = False
+        if vmonst == True and tm == True and moveM == True:
+            mp = True
 
     if len(contador) == 4 and t1 == True:
         move = False
@@ -250,6 +253,7 @@ def finalTurno(bomba, contador):
     global t1, t2, t3, t4, tm
     global move, move2, move3, move4, moveM
     global lp1, lp2, lp3, lp4
+    global mp
 
     if len(bomba) >= 1:
         if v1 == True and t1 == True and move == False and len(bomba) == 1:
@@ -275,6 +279,7 @@ def finalTurno(bomba, contador):
             tm = False
             contador.clear()
             if v1 == True:
+                mp = False
                 t1 = True
                 lp1 = True
                 move = True
@@ -387,7 +392,7 @@ def Bombayage(win, bomba):
     if vmonst == True:
         vivos.append(1)
 
-    if move2 == False and move3 == False and move4 == False and moveM == False and len(vivos) == len(bomba):
+    if move2 == False and move3 == False and move4 == False and moveM == False and len(vivos) <= len(bomba):
         (bX, bY) = bomba[0]
         dX = bX // 10
         dY = bY // 10
@@ -441,11 +446,11 @@ def Bombayage(win, bomba):
 
                 if len(bomba) == 4:
                     if dX4 % 2 == 0 and dY4 % 2 == 0:
-                        explosion.append((bX3, bY3 + i * 10))
-                        explosion.append((bX3, bY3 - i * 10))
+                        explosion.append((bX4, bY4 + i * 10))
+                        explosion.append((bX4, bY4 - i * 10))
                     elif dX4 % 2 != 0 and dY4 % 2 != 0:
-                        explosion.append((bX3 + i * 10, bY3))
-                        explosion.append((bX3 - i * 10, bY3))
+                        explosion.append((bX4 + i * 10, bY4))
+                        explosion.append((bX4 - i * 10, bY4))
                     else:
                         explosion.append((bX4, bY4 + i * 10))
                         explosion.append((bX4, bY4 - i * 10))
@@ -779,8 +784,8 @@ def pantallaStart(win, keys):
         pres2 = b.render("Press 2", True, rojo)
         b3 = b.render("3", True, blanco)
         pres3 = b.render("Press 3", True, morado)
-        b4 = b.render("4", True, blanco)
-        pres4 = b.render("Press 4", True, verde)
+        #b4 = b.render("4", True, blanco)
+        #pres4 = b.render("Press 4", True, verde)
         by = b.render("By: JPVP and JMMM", True, asus)
         win.blit(bomber, (70, 60))
         win.blit(b2600, (180, 130))
@@ -791,8 +796,8 @@ def pantallaStart(win, keys):
         win.blit(pres2, (210, 310))
         win.blit(b3, (190, 340))
         win.blit(pres3, (210, 340))
-        win.blit(b4, (190, 370))
-        win.blit(pres4, (210, 370))
+        #win.blit(b4, (190, 370))
+        #win.blit(pres4, (210, 370))
         win.blit(by, (150, 440))
 
         if keys[pygame.K_1]:
@@ -805,11 +810,11 @@ def pantallaStart(win, keys):
             v2 = True
             v3 = True
             inicio = False
-        elif keys[pygame.K_4]:
-            v2 = True
-            v3 = True
-            v4 = True
-            inicio = False
+        #elif keys[pygame.K_4]:
+            #v2 = True
+            #v3 = True
+            #v4 = True
+            #inicio = False
 
     pygame.display.update()
 

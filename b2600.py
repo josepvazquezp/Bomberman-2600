@@ -75,8 +75,6 @@ contador = []
 bomba = []
 
 def mapaD(win):
-    global anchoDePixel
-    global altoDePixel
 
     win.fill(cFondo)
 
@@ -90,8 +88,8 @@ def mapaD(win):
     pygame.display.update()
 
 def moverP(direccion, p):
-    global vel
     global stop
+
     nuevopX = p[0][0]
     nuevopY = p[0][1]
 
@@ -113,8 +111,6 @@ def moverP(direccion, p):
     p.insert(0, (nuevopX, nuevopY))
 
 def dibujarP1(win, p1):
-    global anchoDePixel
-    global altoDePixel
 
     for pixel in p1:
         pygame.draw.rect(win, (azul), (pixel[0], pixel[1], anchoDePixel, altoDePixel))
@@ -122,8 +118,8 @@ def dibujarP1(win, p1):
     pygame.display.update()
 
 def colisionBordes(direccion, p):
-    global vel
     global colC
+    global mp
 
     (x, y) = p[0]
 
@@ -142,9 +138,7 @@ def colisionBordes(direccion, p):
             p[0] = (x, y - vel)
             colC = True
 
-
 def colisonCuadros(direccion, p):
-    global vel
     global colC
 
     (xP, yP) = p[0]
@@ -170,8 +164,8 @@ def colisonCuadros(direccion, p):
 
 def movI(contador):
     global move, move2, move3, move4
-    global t1, t2, t3, t4
     global colC
+    global mp
 
     keys = pygame.key.get_pressed()
 
@@ -187,6 +181,8 @@ def movI(contador):
     if colC == True and len(contador) != 0:
         contador.pop()
         colC = False
+        if vmonst == True and tm == True and moveM == True:
+            mp = True
 
     if len(contador) == 4 and t1 == True:
         move = False
@@ -198,11 +194,7 @@ def movI(contador):
         move4 = False
 
 def dibujarBomba(win, bomba, p1, p2, p3, p4):
-    global anchoDePixel
-    global altoDePixel
     global move, move2, move3, move4
-    global t1, t2, t3, t4
-    global lp1, lp2, lp3, lp4
 
     keys = pygame.key.get_pressed()
 
@@ -235,24 +227,23 @@ def dibujarBomba(win, bomba, p1, p2, p3, p4):
 
 def movF(contador):
     global move, move2, move3, move4
-    global t1, t2, t3, t4
 
     if move == True and t1 == True:
         if len(contador) >= 5:
             contador.clear()
         elif len(contador) == 4:
             move = False
-    elif move2 == True:
+    elif move2 == True and t2 == True:
         if len(contador) >= 6:
             contador.clear()
         elif len(contador) == 5:
             move2 = False
-    elif move3 == True:
+    elif move3 == True and t3 == True:
         if len(contador) >= 6:
             contador.clear()
         elif len(contador) == 5:
             move3 = False
-    elif move4 == True:
+    elif move4 == True and t4 == True:
         if len(contador) >= 6:
             contador.clear()
         elif len(contador) == 5:
@@ -262,7 +253,7 @@ def finalTurno(bomba, contador):
     global t1, t2, t3, t4, tm
     global move, move2, move3, move4, moveM
     global lp1, lp2, lp3, lp4
-    global v1, v2, v3, v4, vmonst
+    global mp
 
     if len(bomba) >= 1:
         if v1 == True and t1 == True and move == False and len(bomba) == 1:
@@ -288,6 +279,7 @@ def finalTurno(bomba, contador):
             tm = False
             contador.clear()
             if v1 == True:
+                mp = False
                 t1 = True
                 lp1 = True
                 move = True
@@ -380,8 +372,6 @@ def finalTurno(bomba, contador):
                 move3 = True
 
 def Bombayage(win, bomba):
-    global anchoDePixel
-    global altoDePixel
     global move, move2, move3, move4, moveM
     global v1, v2, v3, v4, vmonst
 
@@ -402,7 +392,7 @@ def Bombayage(win, bomba):
     if vmonst == True:
         vivos.append(1)
 
-    if move2 == False and move3 == False and move4 == False and moveM == False and len(vivos) == len(bomba):
+    if move2 == False and move3 == False and move4 == False and moveM == False and len(vivos) <= len(bomba):
         (bX, bY) = bomba[0]
         dX = bX // 10
         dY = bY // 10
@@ -456,11 +446,11 @@ def Bombayage(win, bomba):
 
                 if len(bomba) == 4:
                     if dX4 % 2 == 0 and dY4 % 2 == 0:
-                        explosion.append((bX3, bY3 + i * 10))
-                        explosion.append((bX3, bY3 - i * 10))
+                        explosion.append((bX4, bY4 + i * 10))
+                        explosion.append((bX4, bY4 - i * 10))
                     elif dX4 % 2 != 0 and dY4 % 2 != 0:
-                        explosion.append((bX3 + i * 10, bY3))
-                        explosion.append((bX3 - i * 10, bY3))
+                        explosion.append((bX4 + i * 10, bY4))
+                        explosion.append((bX4 - i * 10, bY4))
                     else:
                         explosion.append((bX4, bY4 + i * 10))
                         explosion.append((bX4, bY4 - i * 10))
@@ -486,8 +476,6 @@ def Bombayage(win, bomba):
     pygame.display.update()
 
 def DibujarP2(win, p2):
-    global anchoDePixel
-    global altoDePixel
 
     pygame.display.flip()
 
@@ -498,7 +486,6 @@ def DibujarP2(win, p2):
 
 def borrarE(bomba, contador):
     global t1, t2, t3, t4, tm
-    global v1, v2, v3, v4, vmonst
     global move, move2, move3, move4, moveM
     global lp1, lp2, lp3
 
@@ -544,30 +531,44 @@ def borrarE(bomba, contador):
     v.clear()
 
 def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
-    global v1, v2, v3, v4, vmonst
-    global t1, t2, t3, t4, tm
-    global vel
     global colC
     global cpb
     global mp
 
-    if p1[0] == p2[0] or p1[0] == p3[0] or p1[0] == p4[0] or p2[0] == p3[0] or p2[0] == p4[0] or p3[0] == p4[0] or p1[0] == monstro[0]:
-        cpb = True
-    elif len(bomba) == 1:
-        if p2[0] == bomba[0] and v1 == True:
+    if v1 == True:
+        if v2 == True and p1[0] == p2[0]:
             cpb = True
-        elif p3[0] == bomba[0] and v2 == True:
+        elif v3 == True and p1[0] == p3[0]:
             cpb = True
-        elif p4[0] == bomba[0] and v3 == True:
+        elif v4 == True and p1[0] == p4[0]:
             cpb = True
-        elif monstro[0] == bomba[0] and v1 == True:
+        elif vmonst == True and p1[0] == monstro[0]:
+            cpb = True
+    if v2 == True:
+        if v3 == True and p2[0] == p3[0]:
+            cpb = True
+        elif v4 == True and p2[0] == p4[0]:
+            cpb = True
+    if v3 == True:
+        if p3[0] == p4[0]:
+            cpb = True
+    if len(bomba) == 1:
+        if v1 == True and v2 == True and p2[0] == bomba[0]:
+            cpb = True
+        elif v2 == True and v3 == True and p3[0] == bomba[0]:
+            cpb = True
+        elif v3 == True and v4 == True and p4[0] == bomba[0]:
+            cpb = True
+        elif v1 == True and vmonst == True and monstro[0] == bomba[0]:
             cpb = True
     elif len(bomba) == 2:
-        if p3[0] == bomba[0] or p3[0] == bomba[1]:
-            cpb = True
-        elif p4[0] == bomba[0] or p4[0] == bomba[1]:
-            cpb = True
-    elif len(bomba) == 3:
+        if v3 == True:
+            if p3[0] == bomba[0] or p3[0] == bomba[1]:
+                cpb = True
+        elif v4 == True:
+            if p4[0] == bomba[0] or p4[0] == bomba[1]:
+                cpb = True
+    elif v4 == True and len(bomba) == 3:
         if p4[0] == bomba[0] or p4[0] == bomba[1] or p4[0] == bomba[2]:
             cpb = True
 
@@ -580,13 +581,13 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
         if direccion == "DERECHA":
             if t1 == True:
                 p1[0] = (x1 - vel, y1)
-            elif t2 == True:
+            if t2 == True:
                 p2[0] = (x2 - vel, y2)
-            elif t3 == True:
+            if t3 == True:
                 p3[0] = (x3 - vel, y3)
-            elif t4 == True:
+            if t4 == True:
                 p4[0] = (x4 - vel, y4)
-            elif tm == True:
+            if tm == True and move == False:
                 monstro[0] = (xM - vel, yM)
                 mp = True
             colC = True
@@ -594,13 +595,13 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
         elif direccion == "IZQUIERDA":
             if t1 == True:
                 p1[0] = (x1 + vel, y1)
-            elif t2 == True:
+            if t2 == True:
                 p2[0] = (x2 + vel, y2)
-            elif t3 == True:
+            if t3 == True:
                 p3[0] = (x3 + vel, y3)
-            elif t4 == True:
+            if t4 == True:
                 p4[0] = (x4 + vel, y4)
-            elif tm == True:
+            if tm == True and move == False:
                 monstro[0] = (xM + vel, yM)
                 mp = True
             colC = True
@@ -608,13 +609,13 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
         elif direccion == "ARRIBA":
             if t1 == True:
                 p1[0] = (x1, y1 + vel)
-            elif t2 == True:
+            if t2 == True:
                 p2[0] = (x2, y2 + vel)
-            elif t3 == True:
+            if t3 == True:
                 p3[0] = (x3, y3 + vel)
-            elif t4 == True:
+            if t4 == True:
                 p4[0] = (x4, y4 + vel)
-            elif tm == True:
+            if tm == True and move == False:
                 monstro[0] = (xM, yM + vel)
                 mp = True
             colC = True
@@ -622,22 +623,19 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
         elif direccion == "ABAJO":
             if t1 == True:
                 p1[0] = (x1, y1 - vel)
-            elif t2 == True:
+            if t2 == True:
                 p2[0] = (x2, y2 - vel)
-            elif t3 == True:
+            if t3 == True:
                 p3[0] = (x3, y3 - vel)
-            elif t4 == True:
+            if t4 == True:
                 p4[0] = (x4, y4 - vel)
-            elif tm == True:
+            if tm == True and move == False:
                 monstro[0] = (xM, yM - vel)
                 mp = True
             colC = True
             cpb = False
 
 def gameOver():
-    global v1, v2, v3, v4, vmonst
-    global anchoDePixel
-    global altoDePixel
     global game_over
 
     if v2 == False and v3 == False and v4 == False and vmonst == False:
@@ -652,7 +650,6 @@ def gameOver():
         game_over = True
 
 def dibujarGO(win):
-    global game_over
 
     pygame.display.flip()
 
@@ -705,15 +702,15 @@ def dibujarGO(win):
     pygame.display.update()
 
 def salir(keys):
-    global game_over
     global running
+
     if game_over == True:
         if keys[pygame.K_q]:
             running = False
     pygame.display.update()
 
 def pantallaP2(win, keys, contador):
-    global t2, v2, move2, lp2
+    global move2, lp2
     global direccion
 
     pygame.display.flip()
@@ -742,8 +739,8 @@ def pantallaP2(win, keys, contador):
 
     pygame.display.update()
 
-def pantallaP1(win, keys):
-    global t1, v1, move, lp1
+def pantallaP1(win, keys, contador):
+    global move, lp1
     global direccion
 
     if v1 == True and t1 == True and lp1 == True:
@@ -787,8 +784,8 @@ def pantallaStart(win, keys):
         pres2 = b.render("Press 2", True, rojo)
         b3 = b.render("3", True, blanco)
         pres3 = b.render("Press 3", True, morado)
-        b4 = b.render("4", True, blanco)
-        pres4 = b.render("Press 4", True, verde)
+        #b4 = b.render("4", True, blanco)
+        #pres4 = b.render("Press 4", True, verde)
         by = b.render("By: JPVP and JMMM", True, asus)
         win.blit(bomber, (70, 60))
         win.blit(b2600, (180, 130))
@@ -799,8 +796,8 @@ def pantallaStart(win, keys):
         win.blit(pres2, (210, 310))
         win.blit(b3, (190, 340))
         win.blit(pres3, (210, 340))
-        win.blit(b4, (190, 370))
-        win.blit(pres4, (210, 370))
+        #win.blit(b4, (190, 370))
+        #win.blit(pres4, (210, 370))
         win.blit(by, (150, 440))
 
         if keys[pygame.K_1]:
@@ -813,16 +810,16 @@ def pantallaStart(win, keys):
             v2 = True
             v3 = True
             inicio = False
-        elif keys[pygame.K_4]:
-            v2 = True
-            v3 = True
-            v4 = True
-            inicio = False
+        #elif keys[pygame.K_4]:
+            #v2 = True
+            #v3 = True
+            #v4 = True
+            #inicio = False
 
     pygame.display.update()
 
 def pantallaP3(win, keys, contador):
-    global t3, v3, move3, lp3
+    global move3, lp3
     global direccion
 
     if v3 == True and t3 == True and lp3 == True:
@@ -849,8 +846,6 @@ def pantallaP3(win, keys, contador):
     pygame.display.flip()
 
 def DibujarP3(win, p3):
-    global anchoDePixel
-    global altoDePixel
 
     pygame.display.flip()
 
@@ -860,7 +855,7 @@ def DibujarP3(win, p3):
     pygame.display.update()
 
 def pantallaP4(win, keys, contador):
-    global t4, v4, move4, lp4
+    global move4, lp4
     global direccion
 
     if v4 == True and t4 == True and lp4 == True:
@@ -887,8 +882,6 @@ def pantallaP4(win, keys, contador):
     pygame.display.flip()
 
 def DibujarP4(win, p4):
-    global anchoDePixel
-    global altoDePixel
 
     pygame.display.flip()
 
@@ -898,8 +891,6 @@ def DibujarP4(win, p4):
     pygame.display.update()
 
 def dibujarMonstro(win, monstro):
-    global anchoDePixel
-    global altoDePixel
 
     pygame.display.flip()
 
@@ -909,7 +900,6 @@ def dibujarMonstro(win, monstro):
     pygame.display.update()
 
 def movIMonstro(monstro, p1, contador, bomba):
-    global vel
     global moveM
     global direccion
     global mp
@@ -1119,18 +1109,9 @@ def movIMonstro(monstro, p1, contador, bomba):
         mp = False
 
 def main():
-    global SCREENSIZE
     global running
     global direccion
-    global vel
     global stop
-    global v1, t1, move
-    global v2, t2, move2
-    global v3, t3, move3
-    global v4, t4, move4
-    global vmonst, tm, moveM
-    global game_over
-    global inicio
 
     pygame.init()
     win = pygame.display.set_mode((SCREENSIZE, SCREENSIZE))
@@ -1165,7 +1146,7 @@ def main():
             mapaD(win)
 
             if v1 == True:
-                pantallaP1(win, keys)
+                pantallaP1(win, keys, contador)
 
                 dibujarP1(win, p1)
                 if t1 == True and move == True:
