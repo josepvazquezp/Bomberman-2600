@@ -119,7 +119,6 @@ def dibujarP1(win, p1):
 
 def colisionBordes(direccion, p):
     global colC
-    global mp
 
     (x, y) = p[0]
 
@@ -253,7 +252,6 @@ def finalTurno(bomba, contador):
     global t1, t2, t3, t4, tm
     global move, move2, move3, move4, moveM
     global lp1, lp2, lp3, lp4
-    global mp
 
     if len(bomba) >= 1:
         if v1 == True and t1 == True and move == False and len(bomba) == 1:
