@@ -119,6 +119,7 @@ def dibujarP1(win, p1):
 
 def colisionBordes(direccion, p):
     global colC
+    global mp
 
     (x, y) = p[0]
 
@@ -136,7 +137,6 @@ def colisionBordes(direccion, p):
         elif direccion == "ABAJO":
             p[0] = (x, y - vel)
             colC = True
-
 
 def colisonCuadros(direccion, p):
     global colC
@@ -547,7 +547,7 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
     if v3 == True:
         if p3[0] == p4[0]:
             cpb = True
-    elif len(bomba) == 1:
+    if len(bomba) == 1:
         if v1 == True and v2 == True and p2[0] == bomba[0]:
             cpb = True
         elif v2 == True and v3 == True and p3[0] == bomba[0]:
@@ -582,7 +582,7 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
                 p3[0] = (x3 - vel, y3)
             if t4 == True:
                 p4[0] = (x4 - vel, y4)
-            if tm == True:
+            if tm == True and move == False:
                 monstro[0] = (xM - vel, yM)
                 mp = True
             colC = True
@@ -596,7 +596,7 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
                 p3[0] = (x3 + vel, y3)
             if t4 == True:
                 p4[0] = (x4 + vel, y4)
-            if tm == True:
+            if tm == True and move == False:
                 monstro[0] = (xM + vel, yM)
                 mp = True
             colC = True
@@ -610,7 +610,7 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
                 p3[0] = (x3, y3 + vel)
             if t4 == True:
                 p4[0] = (x4, y4 + vel)
-            if tm == True:
+            if tm == True and move == False:
                 monstro[0] = (xM, yM + vel)
                 mp = True
             colC = True
@@ -624,7 +624,7 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
                 p3[0] = (x3, y3 - vel)
             if t4 == True:
                 p4[0] = (x4, y4 - vel)
-            if tm == True:
+            if tm == True and move == False:
                 monstro[0] = (xM, yM - vel)
                 mp = True
             colC = True
