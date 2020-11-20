@@ -530,25 +530,40 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
     global cpb
     global mp
 
-    if p1[0] == p2[0] or p1[0] == p3[0] or p1[0] == p4[0] or p2[0] == p3[0] or p2[0] == p4[0] or p3[0] == p4[0] or p1[0] == monstro[0]:
-        cpb = True
-    if p2[0] == p3[0]:
-        cpb = True
+    if v1 == True:
+        if v2 == True and p1[0] == p2[0]:
+            cpb = True
+        elif v3 == True and p1[0] == p3[0]:
+            cpb = True
+        elif v4 == True and p1[0] == p4[0]:
+            cpb = True
+        elif vmonst == True and p1[0] == monstro[0]:
+            cpb = True
+    if v2 == True:
+        if v3 == True and p2[0] == p3[0]:
+            cpb = True
+        elif v4 == True and p2[0] == p4[0]:
+            cpb = True
+    if v3 == True:
+        if p3[0] == p4[0]:
+            cpb = True
     elif len(bomba) == 1:
-        if p2[0] == bomba[0] and v1 == True:
+        if v1 == True and v2 == True and p2[0] == bomba[0]:
             cpb = True
-        elif p3[0] == bomba[0] and v2 == True:
+        elif v2 == True and v3 == True and p3[0] == bomba[0]:
             cpb = True
-        elif p4[0] == bomba[0] and v3 == True:
+        elif v3 == True and v4 == True and p4[0] == bomba[0]:
             cpb = True
-        elif monstro[0] == bomba[0] and v1 == True:
+        elif v1 == True and vmonst == True and monstro[0] == bomba[0]:
             cpb = True
     elif len(bomba) == 2:
-        if p3[0] == bomba[0] or p3[0] == bomba[1]:
-            cpb = True
-        elif p4[0] == bomba[0] or p4[0] == bomba[1]:
-            cpb = True
-    elif len(bomba) == 3:
+        if v3 == True:
+            if p3[0] == bomba[0] or p3[0] == bomba[1]:
+                cpb = True
+        elif v4 == True:
+            if p4[0] == bomba[0] or p4[0] == bomba[1]:
+                cpb = True
+    elif v4 == True and len(bomba) == 3:
         if p4[0] == bomba[0] or p4[0] == bomba[1] or p4[0] == bomba[2]:
             cpb = True
 
@@ -561,13 +576,13 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
         if direccion == "DERECHA":
             if t1 == True:
                 p1[0] = (x1 - vel, y1)
-            elif t2 == True:
+            if t2 == True:
                 p2[0] = (x2 - vel, y2)
-            elif t3 == True:
+            if t3 == True:
                 p3[0] = (x3 - vel, y3)
-            elif t4 == True:
+            if t4 == True:
                 p4[0] = (x4 - vel, y4)
-            elif tm == True:
+            if tm == True:
                 monstro[0] = (xM - vel, yM)
                 mp = True
             colC = True
@@ -575,13 +590,13 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
         elif direccion == "IZQUIERDA":
             if t1 == True:
                 p1[0] = (x1 + vel, y1)
-            elif t2 == True:
+            if t2 == True:
                 p2[0] = (x2 + vel, y2)
-            elif t3 == True:
+            if t3 == True:
                 p3[0] = (x3 + vel, y3)
-            elif t4 == True:
+            if t4 == True:
                 p4[0] = (x4 + vel, y4)
-            elif tm == True:
+            if tm == True:
                 monstro[0] = (xM + vel, yM)
                 mp = True
             colC = True
@@ -589,13 +604,13 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
         elif direccion == "ARRIBA":
             if t1 == True:
                 p1[0] = (x1, y1 + vel)
-            elif t2 == True:
+            if t2 == True:
                 p2[0] = (x2, y2 + vel)
-            elif t3 == True:
+            if t3 == True:
                 p3[0] = (x3, y3 + vel)
-            elif t4 == True:
+            if t4 == True:
                 p4[0] = (x4, y4 + vel)
-            elif tm == True:
+            if tm == True:
                 monstro[0] = (xM, yM + vel)
                 mp = True
             colC = True
@@ -603,13 +618,13 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
         elif direccion == "ABAJO":
             if t1 == True:
                 p1[0] = (x1, y1 - vel)
-            elif t2 == True:
+            if t2 == True:
                 p2[0] = (x2, y2 - vel)
-            elif t3 == True:
+            if t3 == True:
                 p3[0] = (x3, y3 - vel)
-            elif t4 == True:
+            if t4 == True:
                 p4[0] = (x4, y4 - vel)
-            elif tm == True:
+            if tm == True:
                 monstro[0] = (xM, yM - vel)
                 mp = True
             colC = True
