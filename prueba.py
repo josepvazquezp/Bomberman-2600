@@ -252,6 +252,7 @@ def finalTurno(bomba, contador):
     global t1, t2, t3, t4, tm
     global move, move2, move3, move4, moveM
     global lp1, lp2, lp3, lp4
+    global mp
 
     if len(bomba) >= 1:
         if v1 == True and t1 == True and move == False and len(bomba) == 1:
@@ -577,7 +578,7 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
         (x4, y4) = p4[0]
         (xM, yM) = monstro[0]
         if direccion == "DERECHA":
-            if t1 == True:
+            if t1 == True and move == True:
                 p1[0] = (x1 - vel, y1)
             if t2 == True:
                 p2[0] = (x2 - vel, y2)
@@ -591,7 +592,7 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
             colC = True
             cpb = False
         elif direccion == "IZQUIERDA":
-            if t1 == True:
+            if t1 == True and move == True:
                 p1[0] = (x1 + vel, y1)
             if t2 == True:
                 p2[0] = (x2 + vel, y2)
@@ -605,7 +606,7 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
             colC = True
             cpb = False
         elif direccion == "ARRIBA":
-            if t1 == True:
+            if t1 == True and move == True:
                 p1[0] = (x1, y1 + vel)
             if t2 == True:
                 p2[0] = (x2, y2 + vel)
@@ -619,7 +620,7 @@ def colPB(p1, p2, p3, p4, monstro, bomba, direccion):
             colC = True
             cpb = False
         elif direccion == "ABAJO":
-            if t1 == True:
+            if t1 == True and move == True:
                 p1[0] = (x1, y1 - vel)
             if t2 == True:
                 p2[0] = (x2, y2 - vel)
